@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canteen Order</title>
+</head>
+<body>
+
+<h2>Order Form</h2>
+
+<form onsubmit="return printReceipt()">
+
+    <label>Full Name:</label><br>
+    <input type="text" id="name" required><br><br>
+
+    <label>Grade & Section:</label><br>
+    <input type="text" id="section" required><br><br>
+
+    <label>Meal:</label><br>
+    <select id="meal">
+        <option>Chicken meal</option>
+        <option>Pork meal</option>
+        <option>Beef meal</option>
+    </select><br><br>
+
+    <label>Quantity:</label><br>
+    <input type="number" id="qty" min="1" required><br><br>
+
+    <label>Customer Type:</label><br>
+    <select id="type">
+        <option>Student</option>
+        <option>Faculty/Staff</option>
+    </select><br><br>
+
+    <input type="submit" value="Place Order">
+
+</form>
+
+<hr>
+
+<div id="output"></div>
+
+<script>
+function printReceipt() {
+    let name = document.getElementById("name").value;
+    let section = document.getElementById("section").value;
+    let meal = document.getElementById("meal").value;
+    let qty = document.getElementById("qty").value;
+    let type = document.getElementById("type").value;
+
+    let price = calculateSubtotal(meal);
+    let total = price * qty;
+    let discount = calculateDiscount(total, type);
+    let finalTotal = total - discount;
+
+    document.getElementById("output").innerHTML =
+        "<h3>ORDER SUMMARY</h3>" +
+        "Name: " + name + "<br>" +
+        "Section: " + section + "<br>" +
+        "Meal: " + meal + "<br>" +
+        "Quantity: " + qty + "<br>" +
+        "Subtotal: ₱" + total + "<br>" +
+        "Discount: ₱" + discount + "<br>" +
+        "<b>Total: ₱" + finalTotal + "</b>";
+
+    return false;
+}
+
+function calculateSubtotal(meal) {
+    switch(meal) {
+        case "Chicken meal":
+            return 75;
+        case "Pork meal":
+            return 85;
+        case "Beef meal":
+            return 105;
+        default:
+            return 0;
+    }
+}
+
+function calculateDiscount(total, type) {
+    if (type === "Student") {
+        return total * 0.20;
+    } else {
+        return 0;
+    }
+}
+</script>
+
+</body>
+</html>
